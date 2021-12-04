@@ -23,10 +23,13 @@ then
 	AC_CHECK_HEADERS([ftdi.h],[LIBFTDI1=0],[echo "error: missing libftdi header files" && exit 1])
 	AC_CHECK_LIB([ftdi],[ftdi_init],[],[echo "error: missing libftdi library" && exit 1],[])
 	LDFLAGS="-lftdi $LDFLAGS"
+	CFLAGS="-DLIBFTDI1=0 $CFLAGS"
 dnl Else check for the libftdi1 library
 else
 	AC_CHECK_LIB([ftdi1],[ftdi_init],[],[echo "error: missing libftdi1 library" && exit 1],[])
 	LDFLAGS="-lftdi1 $LDFLAGS"
+	CFLAGS="-DLIBFTDI1=1 $CFLAGS"
+#CFLAGS="-I/usr/include/libftdi1 $CFLAGS"
 fi
 
 if test $BUILD
@@ -83,6 +86,6 @@ AC_SUBST(PYDEV, $PYDEV)
 AC_SUBST(PYLIB, $PYLIB)
 AC_SUBST(SONAME, $SONAME)
 AC_SUBST(FRAMEWORK, $FRAMEWORK)
-AC_SUBST(LIBFTDI1, $LIBFTDI1)
+#AC_SUBST(LIBFTDI1, $LIBFTDI1)
 AC_CONFIG_FILES([Makefile])
 AC_OUTPUT
